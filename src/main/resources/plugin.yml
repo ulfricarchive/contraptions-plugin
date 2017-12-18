@@ -2,4 +2,4 @@ name: Contraptions
 main: com.ulfric.plugin.contraptions.ContraptionsPlugin
 version: 1.0.0
 author: Ulfric LLC
-depend: [Platform, Data, Commands, Services, Locale, Restrictions]
+depend: [Platform, Data, Commands, Services, Locale, Restrictions, Tasks]
