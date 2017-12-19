@@ -45,7 +45,7 @@ public class ElevatorSignListener implements Listener {
 		TellService.sendMessage(player, "elevator-created");
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void on(PlayerInteractEvent event) {
 		Block block = event.getClickedBlock();
 		

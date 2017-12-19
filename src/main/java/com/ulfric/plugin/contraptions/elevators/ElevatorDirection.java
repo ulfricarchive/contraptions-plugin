@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 
 import com.google.common.base.Strings;
 
@@ -31,7 +32,12 @@ public enum ElevatorDirection {
 	}
 	
 	public Location traverse(Location current) {
-		return current.clone().add(0, directionSign, 0);
+		return new Location(
+				current.getWorld(), 
+				current.getX(), 
+				current.getY() + directionSign, 
+				current.getZ()
+		);
 	}
 	
 	public Location closestTeleport(Location current) {
@@ -40,18 +46,19 @@ public enum ElevatorDirection {
 		
 		while (space < 2) {
 			current = traverse(current);
+			Block block = current.getBlock();
 			
-			if (current.getBlock() == null && currentY > 2) {
+			if (block == null && currentY > 2) {
 				break;
 			}
 			
-			currentY = current.getBlockY();
+			currentY = block.getY();
 			
 			if (currentY < 1) {
 				break;
 			}
 			
-			if (current.getBlock().getType() == Material.AIR) {
+			if (block.getType() == Material.AIR) {
 				space++;
 			} else {
 				space = 0;
