@@ -25,9 +25,9 @@ public enum ElevatorDirection {
 		return LOOKUP.get(Strings.nullToEmpty(direction).trim().toLowerCase());
 	}
 
-	private final int directionSign;
+	private final double directionSign;
 
-	private ElevatorDirection(int directionSign) {
+	private ElevatorDirection(double directionSign) {
 		this.directionSign = directionSign;
 	}
 
@@ -38,33 +38,41 @@ public enum ElevatorDirection {
 	public Location closestTeleport(Location current) {
 		current = current.clone();
 		int space = 0;
-		int currentY = current.getBlockY();
+		int currentY = 0;
+		int validY = -1;
+		int max = current.getWorld().getMaxHeight();
 
-		while (space < 2) {
+		do {
 			current = traverse(current);
 			Block block = current.getBlock();
+			currentY = block == null ? current.getBlockY() : block.getY();
 
-			if (block == null) {
-				if (currentY > 2) {
-					break;
-				}
-				continue;
-			}
-
-			currentY = block.getY();
-
-			if (currentY < 1) {
-				break;
-			}
-
-			if (block.getType() == Material.AIR) {
+			if (isEmpty(block)) {
 				space++;
+				if (validY == -1) {
+					validY = currentY;
+				}
 			} else {
+				validY = -1;
 				space = 0;
 			}
+
+		} while (space < 2 && currentY > 0 && currentY < max);
+
+		if (space < 2) {
+			return null;
+		}
+		current.setY(validY);
+		return current;
+	}
+
+	private boolean isEmpty(Block block) {
+		if (block == null) {
+			return true;
 		}
 
-		return current;
+		Material material = block.getType();
+		return material == null || material == Material.AIR || (!material.isSolid() && !block.isLiquid());
 	}
 
 }
