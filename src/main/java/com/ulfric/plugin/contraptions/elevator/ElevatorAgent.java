@@ -26,8 +26,8 @@ public class ElevatorAgent extends SignAgent {
 			Location playerLocation = player.getLocation();
 			playEffect(playerLocation);
 			Location teleport = direction.closestTeleport(sign.getLocation());
-			teleport.setDirection(playerLocation.getDirection());
-			player.teleport(direction.closestTeleport(sign.getLocation())); // TODO use relative teleports
+			teleport = teleport.setDirection(playerLocation.getDirection());
+			player.teleport(direction.closestTeleport(teleport)); // TODO use relative teleports
 		}
 	}
 
