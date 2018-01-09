@@ -1,0 +1,7 @@
+display-name: "&6Crowbar"
+lore:
+  - "&aSpawner uses left: {amount}"
+  - "&End portal uses left: {amount}"
+material: DIAMOND_HOE
+spawner-max-use: 1
+end-max-use: 5
